@@ -1,0 +1,3 @@
+totalMesh 100
+density 1.32
+value3 400
