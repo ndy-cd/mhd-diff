@@ -19,19 +19,19 @@ int main (int argc, char** argv){
 
     // инициализация массивов (указатель на указатель на double)
     double **U;                             // массив физических величин
-    U = new double * [3];             
-    for (int i = 0; i < 2; i++) {   
-        U[i] = new double [N];        
-    }
+    // U = new double * [3];             
+    // for (int i = 0; i < 2; i++) {   
+    //     U[i] = new double [N];        
+    // }
+    makeArray(U, N, 1);
 
-    
     double **F;                             // массив потоков
     F = new double * [3];             
     for (int i = 0; i < 2; i++) {   
         F[i] = new double [N];        
     }
 
-    initCond(U[0], F[0], N, cases);             // начальные условия
+    initCond(U, F[0], N, cases);             // начальные условия
     getFlow(U[0], F[0], N, velocity, cases);    // функция для потоков
     consoleGraph(U[0], N);                  // график в консоль
     writeFile(U[0], N, create);             // вывод в новый файл
