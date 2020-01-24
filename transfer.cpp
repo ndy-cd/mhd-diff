@@ -2,6 +2,7 @@
 
 #include "structures.h"
 #include "Lax-Wendroff.h"
+#include "allocate.h"
 #include "interact-with-file-system.h"
 #include "auxiliary-functions.h"
 
@@ -42,24 +43,21 @@ int main (int argc, char** argv){
     getFlow(U, F, var, N, cases);               // функция для потоков
     consoleGraph(U[0], N);                      // график в консоль
     writeFile(U[0], N, create);                 // вывод в новый файл
-    // test(U);
-    
+
     // вычисление нового временного слоя в цикле
     while (dt < 80)
     {
-        LW(U[0], F[0], 1, 1, 1, N);
+        // LW(U[0], F[0], 1, 1, 1, N);
+        Lax_Wendroff(U, F, var, cases, 1, 1, N);
         dt++;
         consoleGraph(U[0], N);
         writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
     }
     
     // высвобождение памяти
-    for (int i = 0; i < 3; i++) {
-        delete [] U[i];
-        delete [] F[i];
-    }
+    deleteArray(U, N, cases);
+    deleteArray(F, N, cases);
     delete [] U;
-    delete [] F;
     return 0;
 }
 
