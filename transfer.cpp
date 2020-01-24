@@ -1,5 +1,6 @@
 #include <stdio.h>              // используется только в ConsoleGraph
 
+#include "structures.h"
 #include "Lax-Wendroff.h"
 #include "interact-with-file-system.h"
 #include "auxiliary-functions.h"
@@ -11,35 +12,39 @@ int main (int argc, char** argv){
     
     char fileName[20] = "file1.txt", add[2] = "a", create[2] = "w"; 
     double options[5], velocity = 1;
+    parameters var;
+    
 
     //считываем параметры расчёта из файла
     readFile(fileName, options); 
     N = (int) options[0];                   // размер сетки
     cases = (int) options[1];                // выбор типа расчёта
+    cases = 1;
 
-    // инициализация массивов (указатель на указатель на double)
+    // выделение памяти в зависимости от типа расчёта
+    // // инициализация массивов (указатель на указатель на double)
     double **U;                             // массив физических величин
-    // U = new double * [3];             
-    // for (int i = 0; i < 2; i++) {   
-    //     U[i] = new double [N];        
-    // }
-    makeArray(U, N, 1);
-
     double **F;                             // массив потоков
-    F = new double * [3];             
-    for (int i = 0; i < 2; i++) {   
-        F[i] = new double [N];        
+    makeArray(U, N, cases);
+    makeArray(F, N, cases);
+    // // выделение памяти под структуру
+    if (cases == 1) {
+        var.velocity = new double [N];
+        var.pressure = new double [N];
+        var.energy = new double [N];
+        var.gamma = new double;
     }
 
-    initCond(U, F[0], N, cases);             // начальные условия
-    getFlow(U[0], F[0], N, velocity, cases);    // функция для потоков
-    consoleGraph(U[0], N);                  // график в консоль
-    writeFile(U[0], N, create);             // вывод в новый файл
-    test(U);
+    initCond(U, F, var, N, cases);              // начальные условия
+    // getFlow(U[0], F[0], N, velocity, cases);    // функция для потоков (буду убирать, используется только для case = 0)
+    consoleGraph(U[0], N);                      // график в консоль
+    writeFile(U[0], N, create);                 // вывод в новый файл
+    // test(U);
+    
     // вычисление нового временного слоя в цикле
     while (dt < 80)
     {
-        LW(U[0], F[0], 1, 1, 1, N);
+        LW(U[0], F[0], 0, 1, 1, N);
         dt++;
         consoleGraph(U[0], N);
         writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
