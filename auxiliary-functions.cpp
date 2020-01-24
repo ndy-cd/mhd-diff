@@ -2,13 +2,13 @@
 
 #include "structures.h"
 
-void getFlow (double U[], double F[], int n, double velocity, int cases) {
+void getFlow (double** U, double** F, parameters var, int n, int cases) {
     switch (cases)
     {
     case 0:                         // transfer equation
         for (int i = 0; i < n; i++)             
         {
-            F[i] = U[i] * velocity;
+            F[0][i] = U[0][i] * var.velocity[i];
         }
         break;
     
@@ -23,13 +23,15 @@ void initCond (double** U, double** F, parameters var, int N, int cases) {
     case 0:                                 // ступенька
         for (int i = 0; i < N/10; i++) { 
             U[0][i] = 1;
+            var.velocity[i] = 1;
         }
         for (int i = N/10; i < N; i++) {
             U[0][i] = 0;
+            var.velocity[i] = 1;
         }
         break;
 
-    case 1: 
+    case 1:                                 // задача о ГД разрыве
         // {rho, v, P} = {1, 0, 3}, x < 0.5,
         // {rho, v, P} = {1, 0, 1}, x > 0.5.
         // Показатель адиабаты 5/3.

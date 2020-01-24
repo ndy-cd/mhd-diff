@@ -14,12 +14,11 @@ int main (int argc, char** argv){
     double options[5], velocity = 1;
     parameters var;
     
-
     //считываем параметры расчёта из файла
     readFile(fileName, options); 
     N = (int) options[0];                   // размер сетки
     cases = (int) options[1];                // выбор типа расчёта
-    cases = 1;
+    // cases = 1;
 
     // выделение памяти в зависимости от типа расчёта
     // // инициализация массивов (указатель на указатель на double)
@@ -28,6 +27,10 @@ int main (int argc, char** argv){
     makeArray(U, N, cases);
     makeArray(F, N, cases);
     // // выделение памяти под структуру
+    if (cases == 0)
+    {
+        var.velocity = new double [N];
+    }
     if (cases == 1) {
         var.velocity = new double [N];
         var.pressure = new double [N];
@@ -36,7 +39,7 @@ int main (int argc, char** argv){
     }
 
     initCond(U, F, var, N, cases);              // начальные условия
-    // getFlow(U[0], F[0], N, velocity, cases);    // функция для потоков (буду убирать, используется только для case = 0)
+    getFlow(U, F, var, N, cases);               // функция для потоков
     consoleGraph(U[0], N);                      // график в консоль
     writeFile(U[0], N, create);                 // вывод в новый файл
     // test(U);
@@ -44,7 +47,7 @@ int main (int argc, char** argv){
     // вычисление нового временного слоя в цикле
     while (dt < 80)
     {
-        LW(U[0], F[0], 0, 1, 1, N);
+        LW(U[0], F[0], 1, 1, 1, N);
         dt++;
         consoleGraph(U[0], N);
         writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
