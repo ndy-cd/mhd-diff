@@ -70,3 +70,15 @@ void initCond (double** U, double** F, parameters var, int N, int cases) {
         break;
     }
 }
+
+void makeNewVariables(double **U, parameters var, int N) {
+    for (int i = 0; i < N; i++)
+    {
+        var.velocity[i] = U[1][i] / U[0][i];
+        var.velocity[i] = U[1][i] / U[0][i];
+        var.velocity[i] = U[1][i] / U[0][i];
+        // printf("new vel[%d] = %f\n", i, var.velocity[i]);
+    }
+    
+    
+}

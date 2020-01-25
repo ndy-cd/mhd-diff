@@ -19,7 +19,7 @@ int main (int argc, char** argv){
     readFile(fileName, options); 
     N = (int) options[0];                   // размер сетки
     cases = (int) options[1];                // выбор типа расчёта
-    // cases = 1;
+    cases = 1;
 
     // выделение памяти в зависимости от типа расчёта
     // // инициализация массивов (указатель на указатель на double)
@@ -49,6 +49,7 @@ int main (int argc, char** argv){
     {
         // LW(U[0], F[0], 1, 1, 1, N);
         Lax_Wendroff(U, F, var, cases, 1, 1, N);
+        makeNewVariables(U, var, N); // BIG QUESTION (TO DO)
         dt++;
         consoleGraph(U[0], N);
         writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
