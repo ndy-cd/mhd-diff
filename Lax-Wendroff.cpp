@@ -36,8 +36,8 @@ case 0:			 // уравнение переноса
 	nEq = 1;
 	for (int i = 0; i < N-1; i++) {     
 		U12[0][i] = (U[0][i] + U[0][i+1])/2 - dt/2/dx*(F[0][i+1] - F[0][i]);                
-		getFlow(U12, F12, var, N, cases);
 	}
+	getFlow(U12, F12, var, N, cases);
 	break;
 
 case 1:			 // классическая гидродинамика
@@ -46,8 +46,10 @@ case 1:			 // классическая гидродинамика
 		for (int i = 0; i < N-1; i++)
 		{
 			U12[j][i] = (U[j][i] + U[j][i+1])/2 - dt/2/dx*(F[j][i+1] - F[j][i]);
-			getFlow(U12, F12, var, N, cases);
+			
 		}
+		makeNewVelAndState(U12, F12, var, N);
+		getFlow(U12, F12, var, N, cases);
 	}
 
 default:
@@ -59,9 +61,7 @@ for (int j = 0; j < nEq; j++)
 	for (int i = 1; i < N-1; i++)
 	{
 		U[j][i] -= dt/dx*(F12[j][i]-F12[j][i-1]);
-		getFlow(U, F, var, N, cases);
 	}
-	
 }
 deleteArray(U12, N, cases);
 deleteArray(F12, N, cases);

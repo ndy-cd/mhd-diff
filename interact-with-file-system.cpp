@@ -35,7 +35,7 @@ int writeFile (double A[], int N, char* option) {
     return 0;
 }
 
-int writeMultiCols (double** A, parameters var, int h, int N, char* option) {
+int writeMultiCols (double** A, parameters var, double dt, int h, int N, char* option) {
     FILE* file = fopen("Output.txt", option);
     if (*option == 'w') 
     {
@@ -43,7 +43,8 @@ int writeMultiCols (double** A, parameters var, int h, int N, char* option) {
     }
     for (int i = 0; i < N; i++)
     {
-        fprintf(file, "%d\t%.2f\t%.2f\t%.2f\t%.2f\t%d\n", i, A[0][i], var.velocity, var.pressure, var.energy, h);
+        fprintf(file, "%d\t%.2f\t%.2f\t%.2f\t%.2f\t%d\t%f\n", 
+                i, A[0][i], var.velocity[i], var.pressure[i], var.energy[i], h, dt);
     }
     fprintf(file, "\n");
     fclose(file);

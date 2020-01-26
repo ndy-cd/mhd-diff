@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 #include "structures.h"
 
@@ -16,8 +17,8 @@ void getFlow (double** U, double** F, parameters var, int n, int cases) {
         for (int i = 0; i < n; i++)             
         {
             F[0][i] = U[1][i];
-            F[1][i] = U[0][i] * var.velocity[i] * var.velocity[i] + var.pressure[i];
-            F[2][i] = ( U[0][i] * var.energy[i] + U[0][i] * var.velocity[i] * var.velocity[i] / 2
+            F[1][i] = U[1][i] * var.velocity[i] + var.pressure[i];
+            F[2][i] = ( U[0][i] * var.energy[i] + U[1][i] * var.velocity[i] / 2
                         + var.pressure[i] ) * var.velocity[i];
         }
         break;
@@ -50,8 +51,8 @@ void initCond (double** U, double** F, parameters var, int N, int cases) {
         {   
             // вектор-столбец u
             var.velocity[i] = 0;
-            var.pressure[i] = 3*1000000;
-            U[0][i] = 1*1000000;
+            var.pressure[i] = 3;
+            U[0][i] = 1;
             U[1][i] = U[0][i] * var.velocity[i];
             var.energy[i] = var.pressure[i] / U[0][i] / (*var.gamma -1);
             U[2][i] = U[0][i] * var.velocity[i] * var.velocity[i] / 2 + U[0][i] * var.energy[i];
@@ -79,6 +80,26 @@ void makeNewVariables(double **U, double **F, parameters var, int N) {
         var.energy[i] = (U[2][i] - U[1][i]*var.velocity[i]/2)/U[0][i];
         // printf("new vel[%d] = %f\n", i, var.velocity[i]);
     }
-    
-    
+}
+
+void makeNewVelAndState(double **U, double **F, parameters var, int N) {
+    for (int i = 0; i < N; i++)
+    {
+        var.velocity[i] = U[1][i] / U[0][i];
+        var.energy[i] = (U[2][i] - U[1][i]*var.velocity[i]/2) / U[0][i];
+        var.pressure[i] = var.energy[i] * U[0][i] * (*var.gamma - 1);
+    }
+}
+
+double maxVelOf(double **U, parameters var, int N) {
+    double max = 0, frac;
+    for (int i = 0; i < N; i++)
+    {
+        frac = sqrt(var.pressure[i] / U[0][i]);
+        if (max < frac)
+        {
+            max = frac;
+        }
+    }
+    return max;
 }

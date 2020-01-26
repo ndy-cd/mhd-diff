@@ -9,10 +9,10 @@
 int consoleGraph(double[], int);
 
 int main (int argc, char** argv){
-    unsigned int N = 10, dt = 0, cases;
-    
+    unsigned int N = 10, h = 0, cases;
+
     char fileName[20] = "file1.txt", add[2] = "a", create[2] = "w"; 
-    double options[5], velocity = 1;
+    double options[5], dt = 1;
     parameters var;
     
     //считываем параметры расчёта из файла
@@ -41,28 +41,35 @@ int main (int argc, char** argv){
 
     initCond(U, F, var, N, cases);              // начальные условия
     getFlow(U, F, var, N, cases);               // функция для потоков
-    consoleGraph(U[0], N);                      // график в консоль
+    // consoleGraph(U[0], N);                      // график в консоль
     // writeFile(U[0], N, create);                 // вывод в новый файл
-    writeMultiCols(U, var, dt, N, create);
+    writeMultiCols(U, var, dt, h, N, create);
+
     // вычисление нового временного слоя в цикле
-    while (dt < 80)
+    while (h < 80)
     {
+        dt = 1 / maxVelOf(U, var, N);
+        dt -= dt/100;                           // число куранта строго меньше 1
+
         // LW(U[0], F[0], 1, 1, 1, N);
-        Lax_Wendroff(U, F, var, cases, 0.9, 1, N);
-        makeNewVariables(U, F, var, N); // BIG QUESTION (TO DO)
-        dt++;
+        Lax_Wendroff(U, F, var, cases, dt, 1, N);
+
+        // makeNewVariables(U, F, var, N); // BIG QUESTION (TO DO)
+        makeNewVelAndState(U, F, var, N); // BIG QUESTION (TO DO)
+        getFlow(U, F, var, N, cases);
+        h++;
+
         // consoleGraph(U[0], N);
-        // if (dt%10 == 0) {
-        //     writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
+        // if (h%10 == 0) {
+            // writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
         // }
-        writeMultiCols(U, var, dt, N, add);
+        writeMultiCols(U, var, dt, h, N, add);
         
     }
-    
+
     // высвобождение памяти
     deleteArray(U, N, cases);
     deleteArray(F, N, cases);
-    delete [] U;
     return 0;
 }
 
