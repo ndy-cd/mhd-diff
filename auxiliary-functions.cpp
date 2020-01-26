@@ -50,8 +50,8 @@ void initCond (double** U, double** F, parameters var, int N, int cases) {
         {   
             // вектор-столбец u
             var.velocity[i] = 0;
-            var.pressure[i] = 3;
-            U[0][i] = 1;
+            var.pressure[i] = 3*1000000;
+            U[0][i] = 1*1000000;
             U[1][i] = U[0][i] * var.velocity[i];
             var.energy[i] = var.pressure[i] / U[0][i] / (*var.gamma -1);
             U[2][i] = U[0][i] * var.velocity[i] * var.velocity[i] / 2 + U[0][i] * var.energy[i];

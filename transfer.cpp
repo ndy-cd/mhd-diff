@@ -42,8 +42,8 @@ int main (int argc, char** argv){
     initCond(U, F, var, N, cases);              // начальные условия
     getFlow(U, F, var, N, cases);               // функция для потоков
     consoleGraph(U[0], N);                      // график в консоль
-    writeFile(U[0], N, create);                 // вывод в новый файл
-
+    // writeFile(U[0], N, create);                 // вывод в новый файл
+    writeMultiCols(U, var, dt, N, create);
     // вычисление нового временного слоя в цикле
     while (dt < 80)
     {
@@ -53,8 +53,9 @@ int main (int argc, char** argv){
         dt++;
         // consoleGraph(U[0], N);
         // if (dt%10 == 0) {
-            writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
+        //     writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
         // }
+        writeMultiCols(U, var, dt, N, add);
         
     }
     

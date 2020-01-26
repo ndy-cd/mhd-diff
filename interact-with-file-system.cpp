@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "structures.h"
+
 int readFile (char* fileName, double initArray[]) {
     FILE* file = fopen(fileName, "r");
     struct params {
@@ -27,6 +29,21 @@ int writeFile (double A[], int N, char* option) {
     for (int i = 0; i < N; i++)
     {
         fprintf(file, "%d\t%f\n", i, A[i]);
+    }
+    fprintf(file, "\n");
+    fclose(file);
+    return 0;
+}
+
+int writeMultiCols (double** A, parameters var, int h, int N, char* option) {
+    FILE* file = fopen("Output.txt", option);
+    if (*option == 'w') 
+    {
+        fprintf(file, "num\tU\tvelocity\tpressure\tenergy\ttimestep\n");
+    }
+    for (int i = 0; i < N; i++)
+    {
+        fprintf(file, "%d\t%.2f\t%.2f\t%.2f\t%.2f\t%d\n", i, A[0][i], var.velocity, var.pressure, var.energy, h);
     }
     fprintf(file, "\n");
     fclose(file);
