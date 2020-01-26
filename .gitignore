@@ -3,3 +3,7 @@ output.txt
 *.exe
 test
 test.*
+practice/document.*
+practice/report.*
+!practice/report.pdf
+!practice/report.tex

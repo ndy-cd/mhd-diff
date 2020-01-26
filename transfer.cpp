@@ -48,11 +48,14 @@ int main (int argc, char** argv){
     while (dt < 80)
     {
         // LW(U[0], F[0], 1, 1, 1, N);
-        Lax_Wendroff(U, F, var, cases, 1, 1, N);
-        makeNewVariables(U, var, N); // BIG QUESTION (TO DO)
+        Lax_Wendroff(U, F, var, cases, 0.9, 1, N);
+        makeNewVariables(U, F, var, N); // BIG QUESTION (TO DO)
         dt++;
-        consoleGraph(U[0], N);
-        writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
+        // consoleGraph(U[0], N);
+        // if (dt%10 == 0) {
+            writeFile(U[0], N, add); // вывод в файл -> x; U(x) - append
+        // }
+        
     }
     
     // высвобождение памяти
