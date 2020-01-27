@@ -1,0 +1,1 @@
+void initCond (double**, double**, parameters, int , int );

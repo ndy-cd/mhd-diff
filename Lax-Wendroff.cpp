@@ -1,7 +1,9 @@
+#include <cstdio> /// to delete
+
 #include "structures.h"
 #include "allocate.h"
-#include "auxiliary-functions.h" //getFlow
-
+#include "get-flow.h"
+#include "auxiliary-functions.h" // makeNewVar //
 
 void LW (double U[], double F[], double fun, double dt, double dx, int N){
 //Potter p.97                       
@@ -22,8 +24,7 @@ delete [] U12;
 delete [] F12;
 }
 
-void Lax_Wendroff (double** U, double** F, parameters var, int cases, double dt, double dx, int N){
-//Potter p.97                       
+void Lax_Wendroff (double** U, double** F, parameters var, int cases, double dt, double dx, int N){            
 double **U12;                             // массив физических величин
 double **F12;                             // массив потоков
 makeArray(U12, N, cases);
@@ -42,16 +43,15 @@ case 0:			 // уравнение переноса
 
 case 1:			 // классическая гидродинамика
 	nEq = 3;
-	for (int j = 0; j < 3; j++) {                     
+	for (int j = 0; j < nEq; j++) {                     
 		for (int i = 0; i < N-1; i++)
 		{
 			U12[j][i] = (U[j][i] + U[j][i+1])/2 - dt/2/dx*(F[j][i+1] - F[j][i]);
-			
-		}
-		makeNewVelAndState(U12, F12, var, N);
-		getFlow(U12, F12, var, N, cases);
+		}		
 	}
-
+	makeNewVelAndState(U12, F12, var, N-1);
+	getFlow(U12, F12, var, N-1, cases);
+	
 default:
 	break;
 }
