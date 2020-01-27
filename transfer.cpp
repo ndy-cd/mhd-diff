@@ -37,7 +37,7 @@ int main (int argc, char** argv){
     
     initCond(U, F, var, N, cases);              // начальные условия
     getFlow(U, F, var, N, cases);               // функция для потоков
-    writeMultiCols(U, var, dt, h, N, create);
+    writeMultiCols(U, var, dt, h, N, create);   // запись в файл
 
     // вычисление нового временного слоя в цикле
     while (h < H)

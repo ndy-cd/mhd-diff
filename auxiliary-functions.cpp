@@ -23,7 +23,7 @@ double maxVelOf(double **U, parameters var, int N) {
     double max = 0, frac;
     for (int i = 0; i < N; i++)
     {
-        frac = sqrt(*var.gamma * var.pressure[i] / U[0][i]);
+        frac = fabs(var.velocity[i]) + sqrt(*var.gamma * var.pressure[i] / U[0][i]);
         if (max < frac)
         {
             max = frac;

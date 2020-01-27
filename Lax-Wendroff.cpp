@@ -51,6 +51,7 @@ case 1:			 // классическая гидродинамика
 	}
 	makeNewVelAndState(U12, F12, var, N-1);
 	getFlow(U12, F12, var, N-1, cases);
+	break;
 	
 default:
 	break;
