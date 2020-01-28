@@ -6,7 +6,6 @@ output.txt
 *.zip
 test
 test.*
-practice/document.*
-practice/report.*
-!practice/report.pdf
-!practice/report.tex
+practice/
+practice/!report.pdf
+practice/!report.tex
