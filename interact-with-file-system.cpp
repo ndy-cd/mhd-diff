@@ -35,17 +35,37 @@ int writeFile (double A[], int N, char* option) {
     return 0;
 }
 
-int writeMultiCols (double** A, parameters var, double dt, int h, int N, char* option) {
+int writeMultiCols (double** A, parameters var, double dt, int cases, int N, char* option) {
     FILE* file = fopen("Output.txt", option);
-    if (*option == 'w') 
+    switch (cases)
     {
-        fprintf(file, "num\tU\tvelocity\tpressure\tenergy\ttimestep\n");
+    case 0:
+        if (*option == 'w') 
+        {
+            fprintf(file, "num\tU\tvelocity\ttime\n");
+        }
+        for (int i = 0; i < N; i++)
+        {
+            fprintf(file, "%d\t%.2f\t%.2f\t%f\n", 
+                    i, A[0][i], var.velocity[i], dt);
+        }
+        break;
+
+    case 1:
+        if (*option == 'w') 
+        {
+            fprintf(file, "num\tU\tvelocity\tpressure\tenergy\ttime\n");
+        }
+        for (int i = 0; i < N; i++)
+        {
+            fprintf(file, "%d\t%.2f\t%.2f\t%.2f\t%.2f\t%d\t%f\n", 
+                    i, A[0][i], var.velocity[i], var.pressure[i], var.energy[i], dt);
+        }
+
+    default:
+        break;
     }
-    for (int i = 0; i < N; i++)
-    {
-        fprintf(file, "%d\t%.2f\t%.2f\t%.2f\t%.2f\t%d\t%f\n", 
-                i, A[0][i], var.velocity[i], var.pressure[i], var.energy[i], h, dt);
-    }
+        
     fprintf(file, "\n");
     fclose(file);
     return 0;

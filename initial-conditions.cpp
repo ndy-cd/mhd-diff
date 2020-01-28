@@ -14,6 +14,21 @@ void initCond (double** U, double** F, parameters var, int N, int cases) {
         }
         break;
 
+    case 10:                                // ступенька №2 (case + 10); case = 0
+        for (int i = 0; i < N*0.4; i++)
+        {
+            U[0][i] = 0.4; var.velocity[i] = 1;
+        }
+        for (int i = N*0.4; i < N*0.6; i++)
+        {
+            U[0][i] = 0.8; var.velocity[i] = 1;
+        }
+        for (int i = N*0.6; i < N; i++)
+        {
+            U[0][i] = 0.4; var.velocity[i] = 1;
+        }
+        break;
+
     case 1:                                 // задача о ГД разрыве
         // {rho, v, P} = {1, 0, 3}, x < 0.5,
         // {rho, v, P} = {1, 0, 1}, x > 0.5.

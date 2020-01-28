@@ -1,6 +1,9 @@
 .vscode/
 output.txt
 *.exe
+*.plt
+*.gif
+*.zip
 test
 test.*
 practice/document.*

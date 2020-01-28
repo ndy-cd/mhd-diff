@@ -19,17 +19,30 @@ int consoleGraph (double Y[], int x) {
     return 0;
 }
 
-double maxVelOf(double **U, parameters var, int N) {
+double maxVelOf(double **U, parameters var, int N, int cases) {
     double max = 0, frac;
-    for (int i = 0; i < N; i++)
+    switch (cases)
     {
-        frac = fabs(var.velocity[i]) + sqrt(*var.gamma * var.pressure[i] / U[0][i]);
-        if (max < frac)
+    case 0:
+        return 1;
+        break;
+    
+    case 1:
+        for (int i = 0; i < N; i++)
         {
-            max = frac;
+            frac = fabs(var.velocity[i]) + sqrt(*var.gamma * var.pressure[i] / U[0][i]);
+            if (max < frac)
+            {
+                max = frac;
+            }
         }
+        return max;
+        break;
+
+    default:
+        return 0;
+        break;
     }
-    return max;
 }
 
 void makeNewVariables(double **U, double **F, parameters var, int N) {
