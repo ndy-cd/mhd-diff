@@ -27,7 +27,7 @@ int main (int argc, char** argv){
     N = (int) options[0];                   // размер сетки
     cases = (int) options[1];                // выбор типа расчёта
     cases = 1;
-
+    N = 10000;
     // выделение памяти в зависимости от типа расчёта
     double **U;                             // массив физических величин
     double **F;                             // массив потоков
@@ -43,12 +43,15 @@ int main (int argc, char** argv){
     while (h < H)
     {
         dt = 1 / maxVelOf(U, var, N);
-        dt -= dt/100;                           // число куранта строго меньше 1
+        dt -= dt/H;                          // число куранта строго меньше 1
         Lax_Wendroff(U, F, var, cases, dt, 1, N);
         makeNewVelAndState(U, F, var, N);       // BIG QUESTION (TO DO)
         getFlow(U, F, var, N, cases);
         h++;
-        writeMultiCols(U, var, dt, h, N, add);
+        if (h % (H / 100) == 0)
+        {
+            writeMultiCols(U, var, dt, h, N, add);
+        }        
     }
 
     // высвобождение памяти
