@@ -1,5 +1,5 @@
 .vscode/
-output.txt
+*.txt
 *.exe
 *.plt
 *.gif
