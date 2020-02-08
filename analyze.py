@@ -64,14 +64,6 @@ len(rho0)
 fileName = 'output_10000.txt'
 numeric = getData(fileName, N, 1)
 
-# arr = np.zeros(shape = (3))       #original (now use func getData(...))
-# for i in range (h+2):
-#     arr = np.loadtxt(fileName, 
-#                           skiprows = 1, 
-#                           usecols = (0, 1, 3),
-#                           max_rows = i*N + N)
-
-
 
 #----------------------------------------------------------------------------#
 # начальное распределение
@@ -86,6 +78,7 @@ plt.plot(np.linspace(0, 1, 100), getData('output_100.txt', 100, 1)[0:100:1, 1],
                      markersize = 3,
                      label = 'numeric (N=100)')
 plt.legend()
+# plt.savefig('initial-transfer.pdf')
 plt.show()
 print('numeric(0) = \n', numeric[0:N:1, :])
 
@@ -108,6 +101,7 @@ plt.plot(x, analytic, label = 'analytic',
                          color = 'magenta',
                          linewidth = 2)
 plt.legend()
+# plt.savefig('transfer-on-time.pdf')
 plt.show()
 print('numeric(t) = \n', nNumeric[0:N:1, :])
 print('TIME IS EQUAL TO ', nNum100[0, 2])
@@ -129,29 +123,11 @@ plt.plot(np.linspace(0, 1, 100),
                      label = 'N = 100',
                      linewidth = 2)
 plt.legend()
+plt.savefig('transfer-mistake.pdf')
+#----------------------------------------------------------------------------#
 #----------------------------------------------------------------------------#
 
 
-# print(arr[h*N:(h*N + 10):1, 2])   # время расчёта
-# time = arr[h*N:(h*N + 1):1, 2]
-print('TIME = ', time)
-
-
-
-
-# численное решение
-# plt.plot(x, arr[0:N:1, 1])
-# plt.plot(x, arr[h*N:(h*N + N):1, 1])
-
-
-    
-
-# plt.plot(x, arr[, 1])
-
-#np.savetxt('arr.txt', arr)
-# for i in range (3):
-    # print(arr[i*100:100+i*100:1,0:3])
-    
     
 # fig = plt.figure()
 # # ims is a list of lists, each row is a list of artists to draw in the
