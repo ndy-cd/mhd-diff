@@ -36,7 +36,7 @@ int writeFile (double A[], int N, char* option) {
 }
 
 int writeMultiCols (double** A, parameters var, double dt, int cases, int N, char* option) {
-    FILE* file = fopen("Output.txt", option);
+    FILE* file = fopen("output.txt", option);
     switch (cases)
     {
     case 0:
