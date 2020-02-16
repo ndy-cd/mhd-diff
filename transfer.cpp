@@ -10,10 +10,16 @@
 #include "auxiliary-functions.h"
 
 int main (int argc, char** argv){
-    unsigned int N = 100, h = 0, cases, initCase, H = 100;
+    unsigned int    N = 100, 
+                    h = 0, 
+                    cases, 
+                    initCase, 
+                    H = 100;
 
     char fileName[20] = "file1.txt", add[2] = "a", create[2] = "w"; 
-    double options[5], dt = 1, T = 0;
+    double  options[5], 
+            dt = 1, 
+            T = 0;
     parameters var;
 
     // количество шагов из командной строки
@@ -31,9 +37,6 @@ int main (int argc, char** argv){
     {
         initCase = cases + 10;
     }
-    
-    // cases = 1;
-    // N = 100;
 
     // выделение памяти в зависимости от типа расчёта
     double **U;                             // массив физических величин
@@ -51,10 +54,13 @@ int main (int argc, char** argv){
     {
         dt = 1 / maxVelOf(U, var, N, cases);
         // dt -= dt/H;                          // число куранта строго меньше 1
-        dt *= 0.6;
+        dt *= 0.99;
         T += dt;
         Lax_Wendroff(U, F, var, cases, dt, 1, N);
-        // makeNewVelAndState(U, F, var, N);       // TO DO case for 0
+        if (cases)
+        {
+            makeNewVelAndState(U, F, var, N);       // TO DO case for 0
+        }
         getFlow(U, F, var, N, cases);
         h++;
         if (h % (H / 100) == 0)
