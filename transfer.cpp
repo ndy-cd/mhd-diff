@@ -37,6 +37,7 @@ int main (int argc, char** argv){
     {
         initCase = cases + 10;
     }
+    else initCase = cases;
 
     // выделение памяти в зависимости от типа расчёта
     double **U;                             // массив физических величин
@@ -63,7 +64,7 @@ int main (int argc, char** argv){
         }
         getFlow(U, F, var, N, cases);
         h++;
-        if (h % (H / 100) == 0)
+        if (h % (H / 500) == 0)
         {
             writeMultiCols(U, var, T, cases, N, add);
         }        

@@ -1,5 +1,5 @@
-totalMesh 100000
-type	0
+totalMesh 10000
+type	1
 init	0	
 density 1.32
 value3 400

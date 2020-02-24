@@ -2,7 +2,7 @@
 """
 Created on Sun Jan 26 17:55:19 2020
 
-@author: Папа Нодар
+@author: Нодари Бартая
 """
 import numpy as np
 import matplotlib.pyplot as plt

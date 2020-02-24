@@ -54,7 +54,7 @@ int writeMultiCols (double** A, parameters var, double dt, int cases, int N, cha
     case 1:
         if (*option == 'w') 
         {
-            fprintf(file, "num\tU\tvelocity\tpressure\tenergy\ttime\n");
+            fprintf(file, "num\trho\tvelocity\tpressure\tenergy\ttime\n");
         }
         for (int i = 0; i < N; i++)
         {
