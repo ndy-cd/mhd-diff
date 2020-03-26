@@ -1,5 +1,5 @@
-totalMesh 10000
+total_mesh 100
 type	1
-init	0	
-density 1.32
-value3 400
+init	0
+courant	0.5	
+write_every	1
