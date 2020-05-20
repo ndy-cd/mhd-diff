@@ -36,7 +36,7 @@ int main (int argc, char** argv){
     cases = (int) options[1];               // выбор типа расчёта
     initCase = (int) options[2];            // выбор начальных условий
     courant = (float) options[3];           // число Куранта
-    write_every = (int) options[4]          // запись в файл каждые .. шагов 
+    write_every = (int) options[4];         // запись в файл каждые .. шагов 
 
     if (initCase)
     {

@@ -9,3 +9,4 @@ test.*
 practice/
 practice/!report.pdf
 practice/!report.tex
+build/
