@@ -1,21 +1,33 @@
 #include "structures.h"
 
-void makeArray (double** &A, unsigned int N, unsigned int cases) {
-    unsigned int nEq; // количество уравнений (строк в вектор-столбце)
-    
-    switch (cases)
+int switchCase(int Case) {
+    int n;
+
+    switch (Case)
     {
     case 0:             // уравнение переноса
-        nEq = 1;
+        n = 1;
         break;
 
     case 1:             // классическая гидродинамика
-        nEq = 3;
+        n = 3;
         break;
     
+    case 2:
+        n = 3;
+        break;
+
     default:
         break;
     }
+
+    return n;   
+}
+
+void makeArray (double** &A, unsigned int N, unsigned int cases) {
+    unsigned int nEq; // количество уравнений (строк в вектор-столбце)
+    
+    nEq = switchCase(cases);
 
     A = new double * [nEq];             
     for (int i = 0; i < nEq; i++) {   
@@ -26,20 +38,8 @@ void makeArray (double** &A, unsigned int N, unsigned int cases) {
 void deleteArray (double** &A, unsigned int N, unsigned int cases) {
     unsigned int nEq; // количество уравнений (строк в вектор-столбце)
     
-    switch (cases)
-    {
-    case 0:             // уравнение переноса
-        nEq = 1;
-        break;
-
-    case 1:             // классическая гидродинамика
-        nEq = 3;
-        break;
-    
-    default:
-        break;
-    }
-    
+    nEq = switchCase(cases);
+        
     for (int i = 0; i < nEq; i++) {   
         delete [] A[i];        
     }
