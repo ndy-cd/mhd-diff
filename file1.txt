@@ -1,5 +1,5 @@
 total_mesh 100
-type	0
+type	2
 init	0
 courant	0.5	
-write_every	1
+write_every	100000

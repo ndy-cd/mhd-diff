@@ -18,10 +18,12 @@ int main (int argc, char** argv){
                     H = 100;
 
     char fileName[20] = "file1.txt", add[2] = "a", create[2] = "w"; 
-    double  options[5], 
+    double  options[5],
+            boundary[3], // ??
             dt = 1, 
             courant, 
             T = 0;
+    double ae = 1.5 * 10000000000000 * 1000; // ??
     parameters var;
 
     // количество шагов из командной строки
@@ -58,18 +60,30 @@ int main (int argc, char** argv){
     // вычисление нового временного слоя в цикле
     while (h < H)
     {
-        dt = 1 / maxVelOf(U, var, N, cases);                     
+        dt = 1*ae / maxVelOf(U, var, N, cases);                     
         dt *= courant;                                 // число куранта строго меньше 1
         T += dt;
-        Lax_Wendroff(U, F, var, cases, dt, 1, N);
+
+        // Запишем предыдущее значение на предграничной ячейке, чтобы вычесть разницу из граничной.
+        for (int i = 0; i < 3; i++)
+        {
+            // boundary[i] = U[i][N-2];                // only for collapse
+        }
+        Lax_Wendroff(U, F, var, cases, dt, ae, N);
+    
+        // U[0][0] -= F[0][1] / (F[1][1] / U[0][1]);
+        // U[0][N-1] = U[0][N-2];
+        
+
         if (cases)
         {
-            makeNewVelAndState(U, F, var, N);       // TO DO case for 0
+            makeNewVelAndState(U, F, var, N);      
+            // boundaries(U, boundary, var, N);             // only for collapse
         }
         getFlow(U, F, var, N, cases);
         h++;
         if (h % write_every == 0)
-        {
+        { 
             writeMultiCols(U, var, T, cases, N, add);
         }        
     }

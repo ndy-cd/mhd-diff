@@ -3,6 +3,7 @@ struct parameters {
 	double* pressure; 
 	double* energy; 
 	double* gamma; 
+	double*	volume;
 };
 
 // parameters var;

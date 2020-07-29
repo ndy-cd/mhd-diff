@@ -57,6 +57,13 @@ void allocateStruct(parameters &var, int N, int cases) {
         var.energy = new double [N];
         var.gamma = new double;
     }
+    if (cases == 2) {
+        var.velocity = new double [N];
+        var.pressure = new double [N];
+        var.energy = new double [N];
+        var.gamma = new double;
+        var.volume = new double [N];
+    }
 }
 
 void deleteStruct(parameters &var, int N, int cases) {
@@ -69,5 +76,12 @@ void deleteStruct(parameters &var, int N, int cases) {
         delete [] var.pressure;
         delete [] var.energy;
         delete var.gamma;
+    }
+    if (cases == 2) {
+        delete [] var.velocity;
+        delete [] var.pressure;
+        delete [] var.energy;
+        delete var.gamma;
+        delete [] var.volume;
     }
 }

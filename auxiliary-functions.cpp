@@ -21,6 +21,12 @@ int consoleGraph (double Y[], int x) {
 
 double maxVelOf(double **U, parameters var, int N, int cases) {
     double max = 0, frac;
+
+    if (cases == 2)
+    {
+        cases = 1;
+    }
+
     switch (cases)
     {
     case 0:
@@ -69,4 +75,21 @@ void makeNewVelAndState(double **U, double **F, parameters var, int N) {
             printf("ATTENTION! Pressure is lower that zero! pressure[%d]\n", i);
         }
     }
+}
+
+void boundaries(double **U, double *boundary, parameters var, int N) {
+
+    for (int i = 0; i < 1; i++)
+        {
+            U[i][0] = U[i][1];
+            // printf("%f\n", boundary[i]);
+            // U[i][N-1] -= abs(boundary[i] - U[i][N-2]); 
+            U[i][N-1] = U[i][N-2];
+        }
+    // var.pressure[0] = var.pressure[1];
+    // var.velocity[0] = var.velocity[1];
+    // var.energy[0] = var.energy[1];
+    // var.pressure[N-2] = var.pressure[N-1];
+    // var.velocity[N-2] = var.velocity[N-1];
+    // var.energy[N-2] = var.energy[N-1];
 }
