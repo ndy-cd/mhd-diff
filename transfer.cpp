@@ -64,16 +64,9 @@ int main (int argc, char** argv){
         dt *= courant;                                 // число куранта строго меньше 1
         T += dt;
 
-        // Запишем предыдущее значение на предграничной ячейке, чтобы вычесть разницу из граничной.
-        for (int i = 0; i < 3; i++)
-        {
-            // boundary[i] = U[i][N-2];                // only for collapse
-        }
         Lax_Wendroff(U, F, var, cases, dt, ae, N);
-    
-        // U[0][0] -= F[0][1] / (F[1][1] / U[0][1]);
-        // U[0][N-1] = U[0][N-2];
-        
+
+        U[0][0] = U[0][1];
 
         if (cases)
         {
