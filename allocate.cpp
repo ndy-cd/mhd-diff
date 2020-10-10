@@ -63,6 +63,7 @@ void allocateStruct(parameters &var, int N, int cases) {
         var.energy = new double [N];
         var.gamma = new double;
         var.volume = new double [N];
+        var.phi = new double [N];
     }
 }
 

@@ -2,7 +2,12 @@
 #include "math.h"           // Volume. M_PI
 
 void initCond (double** U, double** F, parameters var, int N, int cases) {
+
     double ae = 1.5 * 10000000000000 * 1000;
+    double Gsgs = 6.67 / 100000000.0           // 6.67259·10-8cm3/(g·sec2)
+
+
+
     switch (cases)
     {
     case 0:                                 // ступенька
@@ -56,21 +61,27 @@ void initCond (double** U, double** F, parameters var, int N, int cases) {
             U[2][i] = U[0][i] * var.velocity[i] * var.velocity[i] / 2 + U[0][i] * var.energy[i];
         }
     case 2:                                 // задача о свободном коллапсе
-        *var.gamma = 5.0 / 3.0;
+        *var.gamma = 1.23;
+        
         for (int i = 0; i < N; i++)
         {
             var.velocity[i] = 0;
-            var.pressure[i] = 5.7 / 1000.0 * 80.0;
             
-            U[0][i] = 1.0 / 100000000000000.0;
+            U[0][i] = 4.7 / 10000000000000000000.0 * 0.01;
             U[1][i] = U[0][i] * var.velocity[i];
-            var.energy[i] = var.pressure[i] / U[0][i] / (*var.gamma -1);
-            U[2][i] = U[0][i] * var.velocity[i] * var.velocity[i] / 2 + U[0][i] * var.energy[i];
             
-            var.volume[i] = 4.0 / 3.0 * M_PI * ((i*ae + 1*ae) * (i*ae + 1*ae) * (i*ae + 1*ae) - i*ae * i*ae * i*ae);
+            var.pressure[i] = 8.314 * 10000000 * 10 / 2.3 * U[0][i];    // rho c_s ^ 2
+            var.energy[i] = var.pressure[i] / U[0][i] / (*var.gamma -1);
+
+            var.volume[i] = 4.0 / 3.0 * M_PI * (pow((i+1)*ae, 3.0)  - pow(i*ae, 3));
+            var.phi[i] = Gsgs * U[0][i] * var.volume / i / ae;
+
+            U[2][i] = U[0][i] * var.velocity[i] * var.velocity[i] / 2 + U[0][i] * var.energy[i] + U[0][i] * var.phi[i];
+        
         }
-        // U[0][N-1] = 1.0 /   10000000000000000.0;
-        // U[0][0] = 1.0 /     1000000000000;
+
+        U[0][N-1] = U[0][N-1] / 1000.0;
+
     default:
         break;
     }
