@@ -11,14 +11,15 @@
 
 int main (int argc, char** argv){
     unsigned int    N = 100, 
-                    h = 0, 
+                    h = 0,
+                    dx = 1, 
                     cases, 
                     initCase,
                     write_every,     
                     H = 100;
 
     char fileName[20] = "file1.txt", add[2] = "a", create[2] = "w"; 
-    double  options[5],
+    double  options[6],
             boundary[3], // ??
             dt = 1, 
             courant, 
@@ -33,12 +34,15 @@ int main (int argc, char** argv){
     }
 
     //считываем параметры расчёта из файла
-    readFile(fileName, options); 
+    rea
+    
+    dFile(fileName, options); 
     N = (int) options[0];                   // размер сетки
-    cases = (int) options[1];               // выбор типа расчёта
-    initCase = (int) options[2];            // выбор начальных условий
-    courant = (float) options[3];           // число Куранта
-    write_every = (int) options[4];         // запись в файл каждые .. шагов 
+    dx = (int) options[1];                  // длина ячейки
+    cases = (int) options[2];               // выбор типа расчёта
+    initCase = (int) options[3];            // выбор начальных условий
+    courant = (float) options[4];           // число Куранта
+    write_every = (int) options[5];         // запись в файл каждые .. шагов 
 
     if (initCase)
     {
@@ -67,12 +71,10 @@ int main (int argc, char** argv){
         Lax_Wendroff(U, F, var, cases, dt, ae, N);
 
         U[0][0] = U[0][1];
-
-        if (cases)
-        {
-            makeNewVelAndState(U, F, var, N);      
             // boundaries(U, boundary, var, N);             // only for collapse
-        }
+
+        makeNewVelAndState(U, F, var, N, cases);      
+
         getFlow(U, F, var, N, cases);
         h++;
         if (h % write_every == 0)

@@ -4,6 +4,7 @@ struct parameters {
 	double* energy; 
 	double* gamma; 
 	double*	volume;
+	double* phi;
 };
 
 // parameters var;

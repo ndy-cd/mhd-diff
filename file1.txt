@@ -1,5 +1,6 @@
 total_mesh 100
+dx  10000000000000
 type	2
 init	0
 courant	0.5	
-write_every	100000
+write_every	10000

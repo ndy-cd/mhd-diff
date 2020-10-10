@@ -60,12 +60,28 @@ void makeNewVariables(double **U, double **F, parameters var, int N) {
     }
 }
 
-void makeNewVelAndState(double **U, double **F, parameters var, int N) {
+void makeNewVelAndState(double **U, double **F, parameters var, int N, int cases) {
+
     for (int i = 0; i < N; i++)
     {
         var.velocity[i] = U[1][i] / U[0][i];
-        var.energy[i] = (U[2][i] - U[1][i]*var.velocity[i]/2) / U[0][i];
         var.pressure[i] = var.energy[i] * U[0][i] * (*var.gamma - 1);
+        
+        switch (cases)
+        {
+        case 1:
+            var.energy[i] = (U[2][i] - U[1][i]*var.velocity[i]/2) / U[0][i];
+            break;
+        
+        case 2:
+            var.energy[i] = (U[2][i] - U[1][i] * var.velocity[i]/2 - U[0][i] * var.phi[i]) / U[0][i];
+            break;
+        
+        default:
+            break;
+        }
+
+        
         if (U[2][i] - U[1][i]*var.velocity[i]/2 < 0)
         { 
             printf("ATTENTION! Energy is lower that zero! energy[%d]\n", i);
@@ -75,6 +91,7 @@ void makeNewVelAndState(double **U, double **F, parameters var, int N) {
             printf("ATTENTION! Pressure is lower that zero! pressure[%d]\n", i);
         }
     }
+    
 }
 
 void boundaries(double **U, double *boundary, parameters var, int N) {
