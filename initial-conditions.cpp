@@ -1,5 +1,5 @@
 #include "structures.h"
-#include "math.h"           // Volume. M_PI
+#include "math.h"           // Volume -> M_PI
 
 void initCond (double** U, double** F, parameters var, int N, int cases) {
 
