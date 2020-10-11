@@ -60,12 +60,13 @@ void makeNewVariables(double **U, double **F, parameters var, int N) {
     }
 }
 
-void makeNewVelAndState(double **U, double **F, parameters var, int N, int cases) {
+void makeNewVelAndState(double **U, double **F, parameters var, int N, double dx, int cases) {
+
+    double mass = 0;
 
     for (int i = 0; i < N; i++)
     {
         var.velocity[i] = U[1][i] / U[0][i];
-        var.pressure[i] = var.energy[i] * U[0][i] * (*var.gamma - 1);
         
         switch (cases)
         {
@@ -74,39 +75,44 @@ void makeNewVelAndState(double **U, double **F, parameters var, int N, int cases
             break;
         
         case 2:
-            var.energy[i] = (U[2][i] - U[1][i] * var.velocity[i]/2 - U[0][i] * var.phi[i]) / U[0][i];
+            mass += U[0][i] * var.volume[i];
+            var.phi[i] = - 6.67 / 100000000.0 * mass / (i + 1) / dx;
+            var.energy[i] = (U[2][i] - U[1][i] * var.velocity[i] / 2 - U[0][i] * var.phi[i]) / U[0][i];
             break;
         
         default:
             break;
         }
 
+        var.pressure[i] = var.energy[i] * U[0][i] * (*var.gamma - 1);
         
-        if (U[2][i] - U[1][i]*var.velocity[i]/2 < 0)
-        { 
-            printf("ATTENTION! Energy is lower that zero! energy[%d]\n", i);
-        }
-        if (var.pressure[i] < 0)
-        {
-            printf("ATTENTION! Pressure is lower that zero! pressure[%d]\n", i);
-        }
+        // if (U[2][i] - U[1][i]*var.velocity[i]/2 < 0)
+        // { 
+        //     printf("ATTENTION! Energy is lower that zero! energy[%d]\n", i);
+        // }
+        // if (var.pressure[i] < 0)
+        // {
+        //     printf("ATTENTION! Pressure is lower that zero! pressure[%d]\n", i);
+        // }
     }
     
 }
 
-void boundaries(double **U, double *boundary, parameters var, int N) {
+void boundaries(double **U, parameters var, int N, int cases) {
+    
+    switch (cases)
+    {
+    case 2:
+        U[0][0] = U[0][1];
+        U[1][0] = 0;
+        U[2][0] = U[2][1] - U[1][1] * var.velocity[1] / 2;
+        break;
+    
+    
+    default:
+        break;
+    }
+    
 
-    for (int i = 0; i < 1; i++)
-        {
-            U[i][0] = U[i][1];
-            // printf("%f\n", boundary[i]);
-            // U[i][N-1] -= abs(boundary[i] - U[i][N-2]); 
-            U[i][N-1] = U[i][N-2];
-        }
-    // var.pressure[0] = var.pressure[1];
-    // var.velocity[0] = var.velocity[1];
-    // var.energy[0] = var.energy[1];
-    // var.pressure[N-2] = var.pressure[N-1];
-    // var.velocity[N-2] = var.velocity[N-1];
-    // var.energy[N-2] = var.energy[N-1];
+
 }

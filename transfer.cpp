@@ -12,7 +12,6 @@
 int main (int argc, char** argv){
     unsigned int    N = 100, 
                     h = 0,
-                    dx = 1, 
                     cases, 
                     initCase,
                     write_every,     
@@ -20,11 +19,10 @@ int main (int argc, char** argv){
 
     char fileName[20] = "file1.txt", add[2] = "a", create[2] = "w"; 
     double  options[6],
-            boundary[3], // ??
             dt = 1, 
+            dx = 1,
             courant, 
             T = 0;
-    double ae = 1.5 * 10000000000000 * 1000; // ??
     parameters var;
 
     // количество шагов из командной строки
@@ -34,11 +32,9 @@ int main (int argc, char** argv){
     }
 
     //считываем параметры расчёта из файла
-    rea
-    
-    dFile(fileName, options); 
+    readFile(fileName, options); 
     N = (int) options[0];                   // размер сетки
-    dx = (int) options[1];                  // длина ячейки
+    dx = options[1];                  // длина ячейки
     cases = (int) options[2];               // выбор типа расчёта
     initCase = (int) options[3];            // выбор начальных условий
     courant = (float) options[4];           // число Куранта
@@ -57,25 +53,25 @@ int main (int argc, char** argv){
     makeArray(F, N, cases);
     allocateStruct(var, N, cases);           // выделение памяти под структуру
     
-    initCond(U, F, var, N, initCase);               // начальные условия
+    initCond(U, F, var, N, dx, initCase);               // начальные условия
     getFlow(U, F, var, N, cases);                   // функция для потоков
     writeMultiCols(U, var, T, cases, N, create);    // запись в файл
 
     // вычисление нового временного слоя в цикле
     while (h < H)
     {
-        dt = 1*ae / maxVelOf(U, var, N, cases);                     
-        dt *= courant;                                 // число куранта строго меньше 1
+        dt = courant * dx / maxVelOf(U, var, N, cases);  // число куранта строго меньше 1
         T += dt;
 
-        Lax_Wendroff(U, F, var, cases, dt, ae, N);
+        Lax_Wendroff(U, F, var, cases, dt, dx, N);
 
-        U[0][0] = U[0][1];
-            // boundaries(U, boundary, var, N);             // only for collapse
+        // U[0][0] = U[0][1];
+        boundaries(U, var, N, cases);             // only for collapse
 
-        makeNewVelAndState(U, F, var, N, cases);      
+        makeNewVelAndState(U, F, var, N, dx, cases);      
 
         getFlow(U, F, var, N, cases);
+        
         h++;
         if (h % write_every == 0)
         { 

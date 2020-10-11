@@ -1,12 +1,11 @@
 #include "structures.h"
 #include "math.h"           // Volume -> M_PI
+#include <cstdio>
 
-void initCond (double** U, double** F, parameters var, int N, int cases) {
+void initCond (double** U, double** F, parameters var, int N, double dx, int cases) {
 
-    double ae = 1.5 * 10000000000000 * 1000;
-    double Gsgs = 6.67 / 100000000.0           // 6.67259·10-8cm3/(g·sec2)
-
-
+    double Gsgs = 6.67 / 100000000.0;           // 6.67259·10-8cm3/(g·sec2)
+    double mass = 0;
 
     switch (cases)
     {
@@ -73,8 +72,10 @@ void initCond (double** U, double** F, parameters var, int N, int cases) {
             var.pressure[i] = 8.314 * 10000000 * 10 / 2.3 * U[0][i];    // rho c_s ^ 2
             var.energy[i] = var.pressure[i] / U[0][i] / (*var.gamma -1);
 
-            var.volume[i] = 4.0 / 3.0 * M_PI * (pow((i+1)*ae, 3.0)  - pow(i*ae, 3));
-            var.phi[i] = Gsgs * U[0][i] * var.volume / i / ae;
+            var.volume[i] = 4.0 / 3.0 * M_PI * (pow((i + 1) * dx, 3.0) - pow(i * dx, 3.0));
+
+            mass += U[0][i] * var.volume[i];
+            var.phi[i] = - Gsgs * mass / (i + 1) / dx;
 
             U[2][i] = U[0][i] * var.velocity[i] * var.velocity[i] / 2 + U[0][i] * var.energy[i] + U[0][i] * var.phi[i];
         

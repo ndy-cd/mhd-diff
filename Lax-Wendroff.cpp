@@ -51,18 +51,20 @@ switch (cases)
 				U12[j][i] = (U[j][i] + U[j][i+1])/2 - dt/2/dx*(F[j][i+1] - F[j][i]);
 			}		
 		}
-		makeNewVelAndState(U12, F12, var, N-1);
+		makeNewVelAndState(U12, F12, var, N-1, dx, cases);
 		getFlow(U12, F12, var, N-1, cases);
 		break;
-	case 2:
+		
+	case 2:			// collapse
 		nEq = 3;
-		for (int j = 0; j < nEq; j++) {                     
+		for (int j = 0; j < nEq; j++) 
+		{           
 			for (int i = 0; i < N-1; i++)
 			{
 				U12[j][i] = (U[j][i] + U[j][i+1])/2 - dt/2/dx*(F[j][i+1] - F[j][i]);
-			}		
+			}	    
 		}
-		makeNewVelAndState(U12, F12, var, N-1);
+		makeNewVelAndState(U12, F12, var, N-1, dx, cases);
 		getFlow(U12, F12, var, N-1, cases);
 		break;
 		
@@ -80,3 +82,7 @@ for (int j = 0; j < nEq; j++)
 deleteArray(U12, N, cases);
 deleteArray(F12, N, cases);
 }
+
+// void spatial_derivative(double** U, double** F, parameters var, int cases, double dt, double dx, int N){
+
+// }
