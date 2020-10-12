@@ -65,12 +65,11 @@ int main (int argc, char** argv){
 
         Lax_Wendroff(U, F, var, cases, dt, dx, N);
 
-        // U[0][0] = U[0][1];
-        boundaries(U, var, N, cases);             // only for collapse
-
         makeNewVelAndState(U, F, var, N, dx, cases);      
-
+        boundaries(U, var, N, cases);             // only for collapse
         getFlow(U, F, var, N, cases);
+
+        // U[0][0] = U[0][1];
         
         h++;
         if (h % write_every == 0)

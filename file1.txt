@@ -1,5 +1,5 @@
 total_mesh 100
-dx  14761606928073.13
+dx  1468041808996872.8
 type	2
 init	0
 courant	0.5	

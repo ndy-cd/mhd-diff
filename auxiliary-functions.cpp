@@ -77,7 +77,7 @@ void makeNewVelAndState(double **U, double **F, parameters var, int N, double dx
         case 2:
             mass += U[0][i] * var.volume[i];
             var.phi[i] = - 6.67 / 100000000.0 * mass / (i + 1) / dx;
-            var.energy[i] = (U[2][i] - U[1][i] * var.velocity[i] / 2 - U[0][i] * var.phi[i]) / U[0][i];
+            var.energy[i] = (U[2][i] - U[1][i] * var.velocity[i] / 2.0 - U[0][i] * var.phi[i]) / U[0][i];
             break;
         
         default:
@@ -105,7 +105,7 @@ void boundaries(double **U, parameters var, int N, int cases) {
     case 2:
         U[0][0] = U[0][1];
         U[1][0] = 0;
-        U[2][0] = U[2][1] - U[1][1] * var.velocity[1] / 2;
+        // U[2][0] = U[2][1] - U[1][1] * var.velocity[1] / 2;
         break;
     
     

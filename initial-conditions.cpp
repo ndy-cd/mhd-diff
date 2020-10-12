@@ -66,7 +66,8 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
         {
             var.velocity[i] = 0;
             
-            U[0][i] = 4.7 / 10000000000000000000.0 * 0.01;
+            U[0][i] = 1.5008279229518163 / 10000000000000.0;
+
             U[1][i] = U[0][i] * var.velocity[i];
             
             var.pressure[i] = 8.314 * 10000000 * 10 / 2.3 * U[0][i];    // rho c_s ^ 2
@@ -81,7 +82,7 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
         
         }
 
-        U[0][N-1] = U[0][N-1] / 1000.0;
+        // U[0][N-1] = U[0][N-1] / 1000.0;
 
     default:
         break;
