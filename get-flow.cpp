@@ -32,6 +32,15 @@ void getFlow (double** U, double** F, parameters var, int N, int cases) {
         }
         break;
 
+    case 3:                         // изотермический коллапс (сферические координаты)
+        for (int i = 0; i < N; i++)
+        {
+            /* code */
+            
+
+        }
+        
+
     default:
         break;
     }

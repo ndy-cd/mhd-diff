@@ -13,10 +13,12 @@ int switchCase(int Case) {
         n = 3;
         break;
     
-    case 2:
+    case 2:             
         n = 3;
         break;
 
+    case 3:             // изотермический коллапс
+        n = 2;
     default:
         break;
     }
@@ -57,13 +59,14 @@ void allocateStruct(parameters &var, int N, int cases) {
         var.energy = new double [N];
         var.gamma = new double;
     }
-    if (cases == 2) {
+    if (cases == (2 || 3)) {
         var.velocity = new double [N];
         var.pressure = new double [N];
         var.energy = new double [N];
         var.gamma = new double;
         var.volume = new double [N];
         var.phi = new double [N];
+        var.r = new double [N];
     }
 }
 
@@ -78,11 +81,13 @@ void deleteStruct(parameters &var, int N, int cases) {
         delete [] var.energy;
         delete var.gamma;
     }
-    if (cases == 2) {
+    if (cases == (2 || 3)) {
         delete [] var.velocity;
         delete [] var.pressure;
         delete [] var.energy;
         delete var.gamma;
         delete [] var.volume;
+        delete [] var.phi;
+        delete [] var.r;
     }
 }
