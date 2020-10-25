@@ -90,14 +90,16 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
         for (int i = 0; i < N; i++)
         {
             var.velocity[i] = 0;
-            U[0][i] = 1.501 / 10000000000000.0; // 1.501e-13 rho = 1.501e-19 * et * (M/Mc)^-2 (T/10K)^3
+            U[0][i] = 1.501 / 10000000000000.0; // 1.501e-13    rho = 1.501e-19 * et * (M/Mc)^-2 (T/10K)^3
             U[1][i] = 0;
             var.pressure[i] = 8.314 * 10000000 * 10 / 2.3 * U[0][i];    // rho c_s ^ 2
             var.volume[i] = 4.0 / 3.0 * M_PI * (pow((i + 1) * dx, 3.0) - pow(i * dx, 3.0));
             mass += U[0][i] * var.volume[i];
-            var.phi[i] = - Gsgs * mass / (i + 1) / dx;
+            // mass12 += U[]
             var.r[i] = dx * (i + 1);
-            // var.r_05[i] = dx * (i + 0.5);
+            var.r12[i] = dx * (i + 1.5);
+            var.phi[i] = - Gsgs * mass / var.r[i];
+            var.phi12[i] = - Gsgs * mass / var.r12[i];
         }
         break;
     

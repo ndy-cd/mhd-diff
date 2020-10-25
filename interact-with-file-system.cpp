@@ -61,6 +61,8 @@ int writeMultiCols (double** A, parameters var, double dt, int cases, int N, cha
             fprintf(file, "%d\t%.2f\t%.2f\t%.2f\t%.2f\t%f\n", 
                     i, A[0][i], var.velocity[i], var.pressure[i], var.energy[i], dt);
         }
+        break;
+
     case 2:                 // same as case 1
         if (*option == 'w') 
         {
@@ -71,6 +73,20 @@ int writeMultiCols (double** A, parameters var, double dt, int cases, int N, cha
             fprintf(file, "%d\t%.20f\t%.10f\t%.10f\t%.10f\t%.10f\n", 
                     i, A[0][i], var.velocity[i], var.pressure[i], var.energy[i], dt);
         }
+        break;
+
+    case 3:                 // isothermal collapse
+        if (*option == 'w') 
+        {
+            fprintf(file, "num\trho\tvelocity\ttime\n");
+        }
+        for (int i = 0; i < N; i++)
+        {
+            fprintf(file, "%d\t%.20f\t%.10f\t%.10f\t%.10f\n", 
+                    i, A[0][i], var.velocity[i], var.pressure[i], dt);
+        }
+        break;
+
     default:
         break;
     }

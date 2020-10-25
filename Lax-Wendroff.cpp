@@ -67,16 +67,45 @@ switch (cases)
 		makeNewVelAndState(U12, F12, var, N-1, dx, cases);
 		getFlow(U12, F12, var, N-1, cases);
 		break;
+	
+	case 3:			// isothermal collapse (spherical coordinates)
+		// вспомогательный шаг
+		for (int i = 0; i < N-1; i++)
+		{
+			U12[0][i] = (U[0][i] + U[0][i+1])/2 - dt/2/dx/(var.r12[i] * var.r12[i]) * (F[0][i+1] - F[0][i]);
+		}	 
+
+		for (int i = 0; i < N-1; i++)
+		{
+			U12[1][i] = (U[1][i] + U[1][i+1])/2 - dt/2/dx/(var.r12[i] * var.r12[i]) * (F[1][i+1] - F[1][i]) + U[0][i]*var.phi[i]/var.r12[i]; //PHI!!!
+		}	    
+
+		makeNewVelAndState(U12, F12, var, N-1, dx, cases);
+		getFlow(U12, F12, var, N-1, cases);
+
+		// основной шаг
+		for (int i = 1; i < N-1; i++)
+		{
+			U[0][i] -= dt/dx*(F12[0][i]-F12[0][i-1])/(var.r[i] * var.r[i]);
+		}
+		for (int i = 1; i < N-1; i++)
+		{
+			U[1][i] -= dt/dx*(F12[1][i]-F12[1][i-1])/(var.r[i] * var.r[i]) + U[0][i]*var.phi[i]/var.r[i];
+		}
+		break;
 		
 	default:
 		break;
 }
-//............... основной шаг ...............//
-for (int j = 0; j < nEq; j++)
+if (cases != 3)
 {
-	for (int i = 1; i < N-1; i++)
+	//............... основной шаг ...............//
+	for (int j = 0; j < nEq; j++)
 	{
-		U[j][i] -= dt/dx*(F12[j][i]-F12[j][i-1]);
+		for (int i = 1; i < N-1; i++)
+		{
+			U[j][i] -= dt/dx*(F12[j][i]-F12[j][i-1]);
+		}
 	}
 }
 deleteArray(U12, N, cases);

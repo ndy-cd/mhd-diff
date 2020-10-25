@@ -35,9 +35,8 @@ void getFlow (double** U, double** F, parameters var, int N, int cases) {
     case 3:                         // изотермический коллапс (сферические координаты)
         for (int i = 0; i < N; i++)
         {
-            /* code */
-            
-
+            F[0][i] = U[1][i] * var.r[i] * var.r[i];
+            F[1][i] = (U[1][i] * var.velocity[i] + var.pressure[i]) * var.r[i] * var.r[i];         
         }
         
 

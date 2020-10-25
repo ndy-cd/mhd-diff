@@ -22,7 +22,7 @@ int consoleGraph (double Y[], int x) {
 double maxVelOf(double **U, parameters var, int N, int cases) {
     double max = 0, frac;
 
-    if (cases == 2)
+    if (cases == (2 || 3))
     {
         cases = 1;
     }
@@ -78,13 +78,19 @@ void makeNewVelAndState(double **U, double **F, parameters var, int N, double dx
             mass += U[0][i] * var.volume[i];
             var.phi[i] = - 6.67 / 100000000.0 * mass / (i + 1) / dx;
             var.energy[i] = (U[2][i] - U[1][i] * var.velocity[i] / 2.0 - U[0][i] * var.phi[i]) / U[0][i];
+            var.pressure[i] = var.energy[i] * U[0][i] * (*var.gamma - 1);
             break;
+        
+        case 3:
+            mass += U[0][i] * var.volume[i];
+            var.phi[i] = - 6.67 / 100000000.0 * mass / (i + 1) / dx;
+            var.pressure[i] = U[0][i] * 361478260.86956525; // rho cs^2
         
         default:
             break;
         }
 
-        var.pressure[i] = var.energy[i] * U[0][i] * (*var.gamma - 1);
+        
         
         // if (U[2][i] - U[1][i]*var.velocity[i]/2 < 0)
         // { 
@@ -107,7 +113,11 @@ void boundaries(double **U, parameters var, int N, int cases) {
         U[1][0] = 0;
         // U[2][0] = U[2][1] - U[1][1] * var.velocity[1] / 2;
         break;
-    
+        
+    case 3:
+        U[0][0] = U[0][1];
+        U[1][0] = 0;
+        break;
     
     default:
         break;
