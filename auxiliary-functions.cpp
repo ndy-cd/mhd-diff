@@ -94,8 +94,8 @@ void makeNewVelAndState(double **U, double **F, parameters var, int N, double dx
             break;
         
         case 3:
-            mass += U[0][i] * var.volume[i];
-            var.phi[i] = - 6.67 / 100000000.0 * mass / (i + 1) / dx;
+            // mass += U[0][i] * var.volume[i];
+            // var.phi[i] = - 6.67 / 100000000.0 * mass / (i + 1) / dx;
             var.pressure[i] = U[0][i] * 361478260.86956525; // rho cs^2
         
         default:

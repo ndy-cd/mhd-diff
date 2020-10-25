@@ -31,6 +31,7 @@ makeArray(U12, N, cases);
 makeArray(F12, N, cases);
 int nEq;
 double mass;
+double Gsgs = 6.67 / 100000000.0;
 
 
 //............... вспомогательный шаг ...............//
@@ -71,6 +72,7 @@ switch (cases)
 	
 	case 3:			// isothermal collapse (spherical coordinates)
 		mass = 0;
+		mass += U[0][0]*var.volume[0] / 2;
 		// вспомогательный шаг
 		for (int i = 0; i < N-1; i++)
 		{
@@ -81,12 +83,19 @@ switch (cases)
 		{
 			mass += U12[0][i] * var.volume12[i];
 			U12[1][i] = (U[1][i] + U[1][i+1])/2 - dt/2/dx/(var.r12[i] * var.r12[i]) * (F[1][i+1] - F[1][i]) 
-												+ U12[0][i] * mass / (var.r12[i] * var.r12[i]);
+												+ U12[0][i] * Gsgs * mass / (var.r12[i] * var.r12[i]);
 		}	    
 
 		makeNewVelAndState(U12, F12, var, N-1, dx, cases);
-		getFlow(U12, F12, var, N-1, cases);
+		// getFlow12
+		for (int i = 0; i < N; i++)
+        {
+            F12[0][i] = U12[1][i] * var.r12[i] * var.r12[i];
+            F12[1][i] = (U12[1][i] * var.velocity[i] + var.pressure[i]) * var.r12[i] * var.r12[i];         
+        }
+		// getFlow(U12, F12, var, N-1, cases);
 
+		mass = 0;
 		// основной шаг
 		for (int i = 1; i < N-1; i++)
 		{
@@ -94,7 +103,9 @@ switch (cases)
 		}
 		for (int i = 1; i < N-1; i++)
 		{
-			U[1][i] -= dt/dx*(F12[1][i]-F12[1][i-1])/(var.r[i] * var.r[i]) + U[0][i]*var.phi[i]/var.r[i];
+			mass += U[0][i] * var.volume[i];
+			U[1][i] -= dt/dx*(F12[1][i]-F12[1][i-1])/(var.r[i] * var.r[i])
+												+ U[0][i] * Gsgs * mass / (var.r[i] * var.r[i]);
 		}
 		break;
 		
