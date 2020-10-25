@@ -30,6 +30,7 @@ double **F12;                             // массив потоков
 makeArray(U12, N, cases);
 makeArray(F12, N, cases);
 int nEq;
+double mass;
 
 
 //............... вспомогательный шаг ...............//
@@ -69,6 +70,7 @@ switch (cases)
 		break;
 	
 	case 3:			// isothermal collapse (spherical coordinates)
+		mass = 0;
 		// вспомогательный шаг
 		for (int i = 0; i < N-1; i++)
 		{
@@ -77,7 +79,9 @@ switch (cases)
 
 		for (int i = 0; i < N-1; i++)
 		{
-			U12[1][i] = (U[1][i] + U[1][i+1])/2 - dt/2/dx/(var.r12[i] * var.r12[i]) * (F[1][i+1] - F[1][i]) + U[0][i]*var.phi[i]/var.r12[i]; //PHI!!!
+			mass += U12[0][i] * var.volume12[i];
+			U12[1][i] = (U[1][i] + U[1][i+1])/2 - dt/2/dx/(var.r12[i] * var.r12[i]) * (F[1][i+1] - F[1][i]) 
+												+ U12[0][i] * mass / (var.r12[i] * var.r12[i]);
 		}	    
 
 		makeNewVelAndState(U12, F12, var, N-1, dx, cases);

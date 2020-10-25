@@ -22,7 +22,7 @@ int consoleGraph (double Y[], int x) {
 double maxVelOf(double **U, parameters var, int N, int cases) {
     double max = 0, frac;
 
-    if (cases == (2 || 3))
+    if ( (cases == 2) )
     {
         cases = 1;
     }
@@ -44,6 +44,18 @@ double maxVelOf(double **U, parameters var, int N, int cases) {
         }
         return max;
         break;
+
+    case 3:
+        for (int i = 0; i < N; i++)
+        {
+            frac = fabs(var.velocity[i]) + 19012.581646624563; // ... + RT/mu
+            if (max < frac)
+            {
+                max = frac;
+            }
+        }
+        return max;
+        break;   
 
     default:
         return 0;

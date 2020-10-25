@@ -76,6 +76,7 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
             var.energy[i] = var.pressure[i] / U[0][i] / (*var.gamma -1);
 
             var.volume[i] = 4.0 / 3.0 * M_PI * (pow((i + 1) * dx, 3.0) - pow(i * dx, 3.0));
+            var.volume12[i] = 4.0 / 3.0 * M_PI * (pow((i + 1.5) * dx, 3.0) - pow((i + 0.5) * dx, 3.0));
 
             mass += U[0][i] * var.volume[i];
             var.phi[i] = - Gsgs * mass / (i + 1) / dx;
