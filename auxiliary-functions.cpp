@@ -48,7 +48,7 @@ double maxVelOf(double **U, parameters var, int N, int cases) {
     case 3:
         for (int i = 0; i < N; i++)
         {
-            frac = fabs(var.velocity[i]) + 19012.581646624563; // ... + RT/mu
+            frac = fabs(var.velocity[i]) + 19012.581646624563; // ... + (RT/mu)^(1/2)
             if (max < frac)
             {
                 max = frac;

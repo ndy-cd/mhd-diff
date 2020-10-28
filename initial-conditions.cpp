@@ -101,6 +101,7 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
             var.r12[i] = dx * (i + 1.5);
             var.phi[i] = - Gsgs * mass / var.r[i];
             var.phi12[i] = - Gsgs * mass / var.r12[i];
+            var.spc[i] = pow(dx*(i+1), 3) + pow(dx*i, 3);
         }
         break;
     

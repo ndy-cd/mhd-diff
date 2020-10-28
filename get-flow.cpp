@@ -1,6 +1,7 @@
 #include "structures.h"
 
-void getFlow (double** U, double** F, parameters var, int N, int cases) {
+void 
+getFlow (double** U, double** F, parameters var, int N, int cases) {
 
     switch (cases)
     {

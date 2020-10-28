@@ -34,11 +34,12 @@ int main (int argc, char** argv){
     //считываем параметры расчёта из файла
     readFile(fileName, options); 
     N = (int) options[0];                   // размер сетки
-    dx = options[1];                  // длина ячейки
+    dx = options[1] / double(N);                        // длина ячейки
     cases = (int) options[2];               // выбор типа расчёта
     initCase = (int) options[3];            // выбор начальных условий
     courant = (float) options[4];           // число Куранта
     write_every = (int) options[5];         // запись в файл каждые .. шагов 
+    write_every = H / 100.0;
 
     if (initCase)
     {

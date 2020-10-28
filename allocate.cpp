@@ -69,6 +69,7 @@ void allocateStruct(parameters &var, int N, int cases) {
         var.r12 = new double [N];
         var.phi = new double [N];
         var.phi12 = new double [N];
+        var.spc = new double [N];
     }
 }
 
@@ -101,5 +102,6 @@ void deleteStruct(parameters &var, int N, int cases) {
         delete [] var.phi12;
         delete [] var.r;
         delete [] var.r12;
+        delete [] var.spc;
     }    
 }
