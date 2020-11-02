@@ -70,6 +70,7 @@ void allocateStruct(parameters &var, int N, int cases) {
         var.phi = new double [N];
         var.phi12 = new double [N];
         var.spc = new double [N];
+        var.spc12 = new double [N];
     }
 }
 

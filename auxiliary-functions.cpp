@@ -129,6 +129,8 @@ void boundaries(double **U, parameters var, int N, int cases) {
     case 3:
         U[0][0] = U[0][1];
         U[1][0] = 0;
+        U[0][N-1] = U[0][N-2];
+        U[1][N-1] = 0;
         break;
     
     default:

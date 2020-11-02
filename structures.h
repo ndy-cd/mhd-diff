@@ -10,6 +10,7 @@ struct parameters {
 	double* phi;
 	double* phi12;
 	double* spc;
+	double* spc12;
 };
 
 // parameters var;

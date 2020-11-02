@@ -78,7 +78,7 @@ int writeMultiCols (double** A, parameters var, double dt, int cases, int N, cha
     case 3:                 // isothermal collapse
         if (*option == 'w') 
         {
-            fprintf(file, "num\trho\tvelocity\ttime\n");
+            fprintf(file, "num\trho\tvelocity\tpressure\ttime\n");
         }
         for (int i = 0; i < N; i++)
         {

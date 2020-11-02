@@ -95,13 +95,15 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
             U[1][i] = 0;
             var.pressure[i] = 8.314 * 10000000 * 10 / 2.3 * U[0][i];    // rho c_s ^ 2
             var.volume[i] = 4.0 / 3.0 * M_PI * (pow((i + 1) * dx, 3.0) - pow(i * dx, 3.0));
-            mass += U[0][i] * var.volume[i];
+            // mass += U[0][i] * var.volume[i];
             // mass12 += U[]
-            var.r[i] = dx * (i + 1);
-            var.r12[i] = dx * (i + 1.5);
-            var.phi[i] = - Gsgs * mass / var.r[i];
-            var.phi12[i] = - Gsgs * mass / var.r12[i];
-            var.spc[i] = pow(dx*(i+1), 3) + pow(dx*i, 3);
+            var.r[i] = dx * (i + 0.5);
+            var.r12[i] = dx * (i + 1);
+            // var.phi[i] = - Gsgs * mass / var.r[i];
+            // var.phi12[i] = - Gsgs * mass / var.r12[i];
+            var.spc[i] = pow(dx*(i+1), 3) - pow(dx*i, 3);
+            var.spc12[i] = pow(dx*(i+1.5), 3) - pow(dx*(i+0.5), 3);
+
         }
         break;
     
