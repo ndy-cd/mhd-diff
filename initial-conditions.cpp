@@ -84,14 +84,15 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
             U[2][i] = U[0][i] * var.velocity[i] * var.velocity[i] / 2 + U[0][i] * var.energy[i] + U[0][i] * var.phi[i];
         
         }
-        // U[0][N-1] = U[0][N-1] / 1000.0;
         break;
 
     case 3:                                 // изотермический коллапс
         for (int i = 0; i < N; i++)
         {
             var.velocity[i] = 0;
-            U[0][i] = 1.501 / 10000000000000.0; // 1.501e-13    rho = 1.501e-19 * et * (M/Mc)^-2 (T/10K)^3
+            // U[0][i] = 1.501 / 10000000000000000.0; // 1.501e-13    rho = 1.501e-19 * et * (M/Mc)^-2 (T/10K)^3
+            U[0][i] = 0.0000000000001500827922951816329669363756;
+            // U[0][i] = 0.000000000674750;
             U[1][i] = 0;
             var.pressure[i] = 8.314 * 10000000 * 10 / 2.3 * U[0][i];    // rho c_s ^ 2
             var.volume[i] = 4.0 / 3.0 * M_PI * (pow((i + 1) * dx, 3.0) - pow(i * dx, 3.0));
@@ -103,7 +104,6 @@ void initCond (double** U, double** F, parameters var, int N, double dx, int cas
             // var.phi12[i] = - Gsgs * mass / var.r12[i];
             var.spc[i] = pow(dx*(i+1), 3) - pow(dx*i, 3);
             var.spc12[i] = pow(dx*(i+1.5), 3) - pow(dx*(i+0.5), 3);
-
         }
         break;
     
